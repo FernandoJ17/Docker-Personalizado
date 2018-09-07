@@ -1,21 +1,13 @@
 version: "3"
 
 services:
-  web:
-    image: fernandoj17/docker-personalizado:latest
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    ports:
-      - "5000:97"
 
   db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
-    deploy:
-      restart_policy:
-        condition: on-failure
+    #deploy:
+      #restart_policy:
+        #condition: on-failure
     environment:
       MYSQL_ROOT_PASSWORD: example
   
@@ -23,5 +15,19 @@ services:
     image: adminer
     restart: always
  
+  web:
+    image: fernandoj17/docker-personalizado:latest
+    #deploy:
+      #replicas: 1
+      #restart_policy:
+        #condition: on-failure
+    depends_on:
+      - db
+    ports:
+      - "4000:97"
+    networks:
+      - webnet
+
+
 networks:
   webnet:
